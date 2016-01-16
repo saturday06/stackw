@@ -27,15 +27,18 @@ stack - The Haskell Tool Stack
 
 Usage: stack.exe [--help] [--version] [--numeric-version] [--docker*] [--nix*]
                  ([--verbosity VERBOSITY] | [-v|--verbose])
-                 [--work-dir WORK-DIR] ([--system-ghc] | [--no-system-ghc])
-                 ([--install-ghc] | [--no-install-ghc]) [--arch ARCH] [--os OS]
-                 [--ghc-variant VARIANT] [-j|--jobs JOBS]
-                 [--extra-include-dirs DIR] [--extra-lib-dirs DIR]
-                 ([--skip-ghc-check] | [--no-skip-ghc-check]) ([--skip-msys] |
-                 [--no-skip-msys]) [--local-bin-path DIR] ([--modify-code-page]
-                 | [--no-modify-code-page]) [--resolver RESOLVER]
-                 [--compiler COMPILER] ([--terminal] | [--no-terminal])
-                 [--stack-yaml STACK-YAML] COMMAND|FILE
+...
+```
+
+Yes. It is cached for next execution.
+
+```shell
+$ ./stackw --help
+stack - The Haskell Tool Stack
+
+Usage: stack.exe [--help] [--version] [--numeric-version] [--docker*] [--nix*]
+                 ([--verbosity VERBOSITY] | [-v|--verbose])
+...
 ```
 
 # To specify stack version

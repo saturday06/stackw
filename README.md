@@ -62,3 +62,11 @@ extra-deps: []
 
 extra-package-dbs: []
 ```
+
+# Upgradle stack wrapper
+
+`./stackw stackw-upgrade` updates stack wrapper to latest version.
+
+```
+$ ./stackw stackw-upgrade
+```

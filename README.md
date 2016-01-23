@@ -16,12 +16,12 @@ Executing `./stackw` downloads [stack](https://github.com/commercialhaskell/stac
 
 ```shell
 $ ./stackw --help
---2016-01-17 00:49:12--  https://github.com/commercialhaskell/stack/releases/download/v1.0.0/stack-1.0.0-windows-x86_64.zip
+--2016-01-17 00:49:12--  https://github.com/commercialhaskell/stack/releases/download/v1.0.2/stack-1.0.2-windows-x86_64.zip
 /home/user/.stack/wrapper/programs/stack 100%[===================================================================================================>]   7.34M  1MB/s    in 8s
 
-2016-01-17 00:49:28 (521 KB/s) - '/home/user/.stack/wrapper/programs/stack-1.0.0-windows-x86_64.zip' saved [7692764/7692764]
+2016-01-17 00:49:28 (521 KB/s) - '/home/user/.stack/wrapper/programs/stack-1.0.2-windows-x86_64.zip' saved [7692764/7692764]
 
-Archive:  /home/user/.stack/wrapper/programs/stack-1.0.0-windows-x86_64.zip
+Archive:  /home/user/.stack/wrapper/programs/stack-1.0.2-windows-x86_64.zip
   inflating: stack.exe
 stack - The Haskell Tool Stack
 
@@ -46,13 +46,13 @@ Usage: stack.exe [--help] [--version] [--numeric-version] [--docker*] [--nix*]
 Add following magic comment to your stack.yaml
 
 ```yaml
-# stack version: 1.0.0
+# stack version: 1.0.2
 ```
 
 For example:
 
 ```yaml
-# stack version: 1.0.0
+# stack version: 1.0.2
 resolver: lts-4.1
 
 packages:

@@ -6,7 +6,7 @@
 # There's great documentation for writing shell script that runs anyware.
 # https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.69/html_node/Portable-Shell.html#Portable-Shell
 
-stackw_default_stack_version=1.0.0
+stackw_default_stack_version=1.0.2
 
 stackw_version=1
 stackw_uname_s=`uname -s`

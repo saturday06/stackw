@@ -380,10 +380,24 @@ if (WScript.Arguments.Length == 1 && WScript.Arguments(0) == "stackw-selftest") 
   WScript.Quit(0);
 }
 
-var machine = "x86_64";
-if (GetObject("winmgmts:root\\cimv2:Win32_Processor='cpu0'").AddressWidth == 32) {
+var machine = null;
+var machine_env = shell.ExpandEnvironmentStrings("%PROCESSOR_ARCHITECTURE%");
+if (machine_env == "AMD64") {
+  machine = "x86_64";
+} else if (machine_env == "x86") {
   machine = "i386";
+} else {
+  var address_width = GetObject("winmgmts:root\\cimv2:Win32_Processor='cpu0'").AddressWidth;
+  if (address_width == 64) {
+    machine = "x86_64";
+  } else if (address_width == 32) {
+    machine = "i386";
+  }
 }
+if (!machine) {
+  error_exit("Failed to detect your system");
+}
+
 var version = detect_stack_version();
 var base_name = "";
 if (right_is_greater(version, "0.1.6.0")) {

@@ -318,11 +318,15 @@ if [ -z "$STACKW_EGREP" ]; then
 fi
 
 if [ -z "$STACKW_NAWK" ]; then
-  if awk 'BEGIN{sub(/foo/, "")}' 2> /dev/null; then
-    STACKW_NAWK=awk
-  elif stackw_has_command nawk; then
-    STACKW_NAWK=nawk
-  else
+  for awk_variant in awk nawk gawk; do
+    if stackw_has_command $awk_variant; then
+      if $awk_variant 'BEGIN{sub(/foo/, "")}' 2> /dev/null; then
+        STACKW_NAWK=$awk_variant
+        break
+      fi
+    fi
+  done
+  if [ -z "$STACKW_NAWK" ]; then
     stackw_error_exit "\`gawk' or \`nawk' required"
   fi
 fi

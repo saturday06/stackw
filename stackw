@@ -7,14 +7,7 @@
 # https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.69/html_node/Portable-Shell.html#Portable-Shell
 
 stackw_default_stack_version=1.0.2
-
-stackw_version=1
-stackw_uname_s=`uname -s`
-stackw_uname_m=`uname -m`
 stackw_base_url="https://github.com/commercialhaskell/stack/releases/download"
-stackw_base_dir=$HOME/.stack/wrapper
-stackw_programs_dir=$stackw_base_dir/programs
-stackw_tmp_dir=$stackw_base_dir/tmp
 stackw_script_base_url="https://raw.githubusercontent.com/saturday06/stackw/stable"
 
 stackw_error_exit() {
@@ -304,33 +297,6 @@ stackw_right_is_greater() (
     }' $* > /dev/null
 )
 
-if [ -z "$STACKW_EGREP" ]; then
-  if echo "foo" | grep -E "^foo?$" > /dev/null 2> /dev/null; then
-    STACKW_GREP_E() (
-      grep -E "$@"
-    )
-    STACKW_EGREP=STACKW_GREP_E
-  elif stackw_has_command egrep; then
-    STACKW_EGREP=egrep
-  else
-    stackw_error_exit "\`grep -E' or \`egrep' required"
-  fi
-fi
-
-if [ -z "$STACKW_NAWK" ]; then
-  for awk_variant in awk nawk gawk; do
-    if stackw_has_command $awk_variant; then
-      if $awk_variant 'BEGIN{sub(/foo/, "")}' 2> /dev/null; then
-        STACKW_NAWK=$awk_variant
-        break
-      fi
-    fi
-  done
-  if [ -z "$STACKW_NAWK" ]; then
-    stackw_error_exit "\`gawk' or \`nawk' required"
-  fi
-fi
-
 stackw_detect_stack_version() {
   stackw_yaml=`stackw_parse_stack_yaml_option "$@"`
   if [ -z "$stackw_yaml" ]; then
@@ -374,15 +340,36 @@ stackw_selftest() {
   stackw_right_is_greater 2.0pl.0 2.0pl1  ; [ $? -ne 0 ] && failure
 }
 
-if [ "$1" = "stackw-selftest" ]; then
-  stackw_selftest
-  exit 0
+if [ -z "$STACKW_EGREP" ]; then
+  if echo "foo" | grep -E "^foo?$" > /dev/null 2> /dev/null; then
+    STACKW_GREP_E() (
+      grep -E "$@"
+    )
+    STACKW_EGREP=STACKW_GREP_E
+  elif stackw_has_command egrep; then
+    STACKW_EGREP=egrep
+  else
+    stackw_error_exit "\`grep -E' or \`egrep' required"
+  fi
 fi
 
-stackw_version=`stackw_detect_stack_version "$@"`
-if [ $? -ne 0 ]; then
-  exit 1
+if [ -z "$STACKW_NAWK" ]; then
+  for awk_variant in awk nawk gawk; do
+    if stackw_has_command $awk_variant; then
+      if $awk_variant 'BEGIN{sub(/foo/, "")}' 2> /dev/null; then
+        STACKW_NAWK=$awk_variant
+        break
+      fi
+    fi
+  done
+  if [ -z "$STACKW_NAWK" ]; then
+    stackw_error_exit "\`gawk' or \`nawk' required"
+  fi
 fi
+
+stackw_uname_s=`uname -s`
+stackw_uname_m=`uname -m`
+stackw_base_dir=$HOME/.stack/wrapper
 
 case "$stackw_uname_m" in
   x86_64)
@@ -413,11 +400,30 @@ case "$stackw_uname_s" in
   ;;
   CYGWIN*|MINGW*|MSYS*)
     stackw_system=windows
+    if stackw_has_command cygpath; then
+      stackw_appdata_dir="`cygpath --unix --folder 26`"
+      if [ -n "$stackw_appdata_dir" ]; then
+        stackw_base_dir="$stackw_appdata_dir/stack/wrapper"
+      fi
+    fi
   ;;
   *)
     stackw_error_exit "Unsupported system \`$stackw_uname_s'"
   ;;
 esac
+
+stackw_programs_dir=$stackw_base_dir/programs
+stackw_tmp_dir=$stackw_base_dir/tmp
+
+if [ "$1" = "stackw-selftest" ]; then
+  stackw_selftest
+  exit 0
+fi
+
+stackw_version=`stackw_detect_stack_version "$@"`
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
 stackw_single_archive=false
 if stackw_right_is_greater $stackw_version 0.1.2.0; then

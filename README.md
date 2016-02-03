@@ -1,6 +1,6 @@
 # stack wrapper
 
-Automated [The Haskell Tool Stack](https://github.com/commercialhaskell/stack) installation/execution script like gradle wrapper or typesafe activator
+[The Haskell Tool Stack](https://github.com/commercialhaskell/stack) installation/execution script like gradle wrapper or typesafe activator
 
 # Installation
 

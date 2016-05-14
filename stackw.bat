@@ -11,7 +11,7 @@ exit /b %errorlevel%
 
 ::::::::::::::::: */
 
-default_stack_version = "1.0.2";
+default_stack_version = "1.1.0";
 filesystem = new ActiveXObject('Scripting.FileSystemObject');
 shell = new ActiveXObject("WScript.Shell");
 base_url = "https://github.com/commercialhaskell/stack/releases/download";

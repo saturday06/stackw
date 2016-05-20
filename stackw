@@ -386,7 +386,9 @@ esac
 case "$stackw_uname_s" in
   Linux)
     stackw_egrep_ldconfig() {
-      ldconfig --print-cache | $STACKW_NAWK '{print $1}' | $STACKW_EGREP "$1" 2> /dev/null > /dev/null
+      if stackw_has_command ldconfig; then
+        ldconfig --print-cache | $STACKW_NAWK '{print $1}' | $STACKW_EGREP "$1" 2> /dev/null > /dev/null
+      fi
     }
     if stackw_egrep_ldconfig "^libgmp\.so\.10$"; then
       stackw_linux_gmp=

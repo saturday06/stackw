@@ -59,6 +59,14 @@ stackw_find_ancestor_dir_stack_yaml() (
 stackw_right_is_greater() (
   # http://php.net/manual/en/function.version-compare.php
   $STACKW_NAWK '
+    function array_length(a,    i, k) {
+      k = 0;
+      for (i in a) {
+        k++;
+      }
+      return k;
+    }
+
     function normalize_version(version,    i) {
       printf("normalize_version: %s\n", version)
       gsub(/^[._+-]+/, "", version)
@@ -171,7 +179,7 @@ stackw_right_is_greater() (
       comparison[++comparison_length] = compare_symbol(left, right, "dev")
       comparison[++comparison_length] = compare_string(left, right)
       for (i = 1; i <= comparison_length; i++) {
-        printf("comparison (%d/%d) %d\n", i, length(comparison), comparison[i])
+        printf("comparison (%d/%d) %d\n", i, comparison_length, comparison[i])
       }
       for (i = 1; i <= comparison_length; i++) {
         if (comparison[i] != 0) {
@@ -190,14 +198,14 @@ stackw_right_is_greater() (
       printf("=> compare_version %s %s\n", left, right);
       split(left, left_values, /\./)
       split(right, right_values, /\./)
-      for (i = 1; length(left_values) >= i || length(right_values) >= i; i++) {
+      for (i = 1; array_length(left_values) >= i || array_length(right_values) >= i; i++) {
         printf("===== %d th loop =====\n", i);
-        if (length(left_values) < i) {
+        if (array_length(left_values) < i) {
           left_value = 0
         } else {
           left_value = left_values[i]
         }
-        if (length(right_values) < i) {
+        if (array_length(right_values) < i) {
           right_value = 0
         } else {
           right_value = right_values[i]
